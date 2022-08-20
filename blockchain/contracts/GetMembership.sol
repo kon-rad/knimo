@@ -1,21 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.5;
+pragma solidity 0.8.10;
 
-import {FeeFollowModule} from './modules/follow/FeeFollowModule.sol';
-import {ModuleBase} from './modules/ModuleBase.sol';
-import {FollowValidatorFollowModuleBase} from './modules/follow/FollowValidatorFollowModuleBase.sol';
-import { ByteHasher } from './helpers/ByteHasher.sol';
-import { IWorldID } from './interfaces/IWorldID.sol';
-import {Errors} from './libraries/Errors.sol';
-import {IERC20} from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-import {SafeERC20} from '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
-import {IERC721} from '@openzeppelin/contracts/token/ERC721/IERC721.sol';
+import {IFollowModule} from './Lens/interfaces/IFollowModule.sol';
+import {ModuleBase} from './Lens/modules/ModuleBase.sol';
+import {IWorldID} from './Lens/interfaces/IWorldID.sol';
+import {ByteHasher} from './helpers/ByteHasher.sol';
 
-
-
-contract MembershipManagement is FeeFollowModule {
+contract GetMembership is IFollowModule, ModuleBase{
     using ByteHasher for bytes;
-    using SafeERC20 for IERC20;
 
     ///////////////////////////////////////////////////////////////////////////////
     ///                                  ERRORS                                ///
@@ -25,24 +17,15 @@ contract MembershipManagement is FeeFollowModule {
     error InvalidNullifier();
 
     /// @dev The WorldID instance that will be used for verifying proofs
-    IWorldID internal immutable worldId;
+    IWorldID internal worldId;
 
     /// @dev The WorldID group ID (1)
-    uint256 internal immutable groupId = 1;
+    uint256 internal groupId = 1;
 
     /// @dev Whether a nullifier hash has been used already. Used to prevent double-signaling
     mapping(uint256 => bool) internal nullifierHashes;
 
-    /// @param _worldId The WorldID instance that will verify the proofs
-    constructor(
-        address hub, 
-        address moduleGlobals,
-        IWorldID _worldId
-    )
-        FeeFollowModule(hub, moduleGlobals)
-    {
-        worldId = _worldId;
-    }
+    constructor(address hub) ModuleBase(hub){}
 
     function initializeFollowModule(uint256 profileId, bytes calldata data)
         external
@@ -50,16 +33,8 @@ contract MembershipManagement is FeeFollowModule {
         onlyHub
         returns (bytes memory)
     {
-        (uint256 amount, address currency, address recipient) = abi.decode(
-            data,
-            (uint256, address, address)
-        );
-        if (!_currencyWhitelisted(currency) || recipient == address(0) || amount == 0)
-            revert Errors.InitParamsInvalid();
-
-        _dataByProfile[profileId].amount = amount;
-        _dataByProfile[profileId].currency = currency;
-        _dataByProfile[profileId].recipient = recipient;
+        address _worldId = abi.decode(data,(address));
+        worldId = IWorldID(_worldId);
         return data;
     }
     
@@ -76,20 +51,20 @@ contract MembershipManagement is FeeFollowModule {
         ) = abi.decode(data, (address, uint256, uint256, uint256[8]));
         
         verify(input, root, nullifierHash, proof);
-
-        uint256 amount = _dataByProfile[profileId].amount;
-        address currency = _dataByProfile[profileId].currency;
-        // _validateDataIsExpected(data, currency, amount); need to fix this 
-
-        (address treasury, uint16 treasuryFee) = _treasuryData();
-        address recipient = _dataByProfile[profileId].recipient;
-        uint256 treasuryAmount = (amount * treasuryFee) / BPS_MAX;
-        uint256 adjustedAmount = amount - treasuryAmount;
-
-        IERC20(currency).safeTransferFrom(follower, recipient, adjustedAmount);
-        if (treasuryAmount > 0)
-            IERC20(currency).safeTransferFrom(follower, treasury, treasuryAmount);
     }
+
+    function followModuleTransferHook(
+        uint256 profileId,
+        address from,
+        address to,
+        uint256 followNFTTokenId
+    ) external override {}
+
+        function isFollowing(
+        uint256 profileId,
+        address follower,
+        uint256 followNFTTokenId
+    ) external view returns (bool){}
 
     /// @param input User's input, used as the signal. Could be something else! (see README)
     /// @param root The of the Merkle tree, returned by the SDK.
@@ -117,8 +92,5 @@ contract MembershipManagement is FeeFollowModule {
 
         // finally, we record they've done this, so they can't do it again (proof of uniqueness)
         nullifierHashes[nullifierHash] = true;
-
-        // your logic here, make sure to emit some kind of event afterwards!
-
     }
 }
