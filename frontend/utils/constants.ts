@@ -1,0 +1,7 @@
+export const DEFAULT_COLOR_SCHEME = 'teal'
+export const DESCRIPTION = 'KNIMO'
+export const IMAGE_OG = '/resources/images/logo.png'
+export const SITE_URL = ''
+export const SOCIAL_HANDLE = ''
+export const TITLE = 'KNIMO'
+export const CHAIN = process.env.NEXT_PUBLIC_CHAIN ? process.env.NEXT_PUBLIC_CHAIN : process.env.NODE_ENV === 'production' ? 'polygon' : 'mumbai'
