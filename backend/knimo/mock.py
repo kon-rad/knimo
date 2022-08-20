@@ -26,15 +26,52 @@
 
 import json
 
+__global_state__ = {
+  'registry': [
+    {
+      'id': '0x0000000000000000000000000000000000000000',
+      'profiles': [],
+    }
+  ],
+}
+
+
 class Mock:
   
   @staticmethod
-  def post_registry():
-    return json.dumps({ 'id': '0x1234567890', 'name': 'knimo registry', 'success': True })
+  def post_registry(_id):
+    global __global_state__
+
+    if _id:
+      __global_state__['registry'].append({
+        'id': _id,
+        'profiles': [],
+      })
+      return json.dumps({
+        'success': True,
+        'message': 'Registry created',
+        'data': {
+          'id': _id,
+        }
+      })
+
+    return json.dumps({ 'success': False })
+
 
   @staticmethod
-  def get_registry():
-    return json.dumps({ 'id': '0x1234567890', 'name': 'knimo registry', 'success': True })
+  def get_registry(_id):
+    global __global_state__
+
+    if _id:
+      for registry in __global_state__['registry']:
+        if registry['id'] == _id:
+          return json.dumps({
+            'success': True,
+            'message': 'Registry found',
+            'data': registry,
+          })
+    
+    return json.dumps({ 'success': False, 'message': 'Registry not found' })
 
   @staticmethod
   def post_profile():
