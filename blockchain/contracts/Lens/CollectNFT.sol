@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.5;
+pragma solidity 0.8.10;
 
 import {ICollectNFT} from './interfaces/ICollectNFT.sol';
 import {ILensHub} from './interfaces/ILensHub.sol';
