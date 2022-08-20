@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.10;
+pragma solidity ^0.8.5;
 
-import {IFollowModule} from '../../../interfaces/IFollowModule.sol';
-import {ILensHub} from '../../../interfaces/ILensHub.sol';
-import {Errors} from '../../../libraries/Errors.sol';
+import {IFollowModule} from '../../interfaces/IFollowModule.sol';
+import {ILensHub} from '../../interfaces/ILensHub.sol';
+import {Errors} from '../../libraries/Errors.sol';
 import {FeeModuleBase} from '../FeeModuleBase.sol';
 import {ModuleBase} from '../ModuleBase.sol';
 import {FollowValidatorFollowModuleBase} from './FollowValidatorFollowModuleBase.sol';
@@ -53,6 +53,7 @@ contract FeeFollowModule is FeeModuleBase, FollowValidatorFollowModuleBase {
     function initializeFollowModule(uint256 profileId, bytes calldata data)
         external
         override
+        virtual
         onlyHub
         returns (bytes memory)
     {
@@ -77,7 +78,7 @@ contract FeeFollowModule is FeeModuleBase, FollowValidatorFollowModuleBase {
         address follower,
         uint256 profileId,
         bytes calldata data
-    ) external override onlyHub {
+    ) external override virtual onlyHub {
         uint256 amount = _dataByProfile[profileId].amount;
         address currency = _dataByProfile[profileId].currency;
         _validateDataIsExpected(data, currency, amount);

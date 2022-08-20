@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.10;
 
-import {Errors} from '../../../libraries/Errors.sol';
+import {Errors} from '../../libraries/Errors.sol';
 import {ModuleBase} from '../ModuleBase.sol';
 import {FollowValidatorFollowModuleBase} from './FollowValidatorFollowModuleBase.sol';
 

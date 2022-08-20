@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.10;
+pragma solidity ^0.8.5;
 
-import {ICollectNFT} from '../interfaces/ICollectNFT.sol';
-import {ILensHub} from '../interfaces/ILensHub.sol';
-import {Errors} from '../libraries/Errors.sol';
-import {Events} from '../libraries/Events.sol';
+import {ICollectNFT} from './interfaces/ICollectNFT.sol';
+import {ILensHub} from './interfaces/ILensHub.sol';
+import {Errors} from './libraries/Errors.sol';
+import {Events} from './libraries/Events.sol';
 import {LensNFTBase} from './base/LensNFTBase.sol';
 
 /**

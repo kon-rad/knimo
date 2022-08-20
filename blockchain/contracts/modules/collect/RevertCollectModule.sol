@@ -2,8 +2,8 @@
 
 pragma solidity 0.8.10;
 
-import {ICollectModule} from '../../../interfaces/ICollectModule.sol';
-import {Errors} from '../../../libraries/Errors.sol';
+import {ICollectModule} from '../../interfaces/ICollectModule.sol';
+import {Errors} from '../../libraries/Errors.sol';
 
 /**
  * @title RevertCollectModule

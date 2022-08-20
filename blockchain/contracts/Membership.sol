@@ -1,15 +1,21 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.5;
 
-import {IFollowModule} from './interfaces/IFollowModule.sol';
+import {FeeFollowModule} from './modules/follow/FeeFollowModule.sol';
 import {ModuleBase} from './modules/ModuleBase.sol';
 import {FollowValidatorFollowModuleBase} from './modules/follow/FollowValidatorFollowModuleBase.sol';
 import { ByteHasher } from './helpers/ByteHasher.sol';
 import { IWorldID } from './interfaces/IWorldID.sol';
+import {Errors} from './libraries/Errors.sol';
+import {IERC20} from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import {SafeERC20} from '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
+import {IERC721} from '@openzeppelin/contracts/token/ERC721/IERC721.sol';
 
 
-contract Membership is IFollowModule {
+
+contract MembershipManagement is FeeFollowModule {
     using ByteHasher for bytes;
+    using SafeERC20 for IERC20;
 
     ///////////////////////////////////////////////////////////////////////////////
     ///                                  ERRORS                                ///
@@ -28,7 +34,13 @@ contract Membership is IFollowModule {
     mapping(uint256 => bool) internal nullifierHashes;
 
     /// @param _worldId The WorldID instance that will verify the proofs
-    constructor(address hub, IWorldID _worldId) ModuleBase(hub) {
+    constructor(
+        address hub, 
+        address moduleGlobals,
+        IWorldID _worldId
+    )
+        FeeFollowModule(hub, moduleGlobals)
+    {
         worldId = _worldId;
     }
 
@@ -37,43 +49,58 @@ contract Membership is IFollowModule {
         override
         onlyHub
         returns (bytes memory)
-    {}
+    {
+        (uint256 amount, address currency, address recipient) = abi.decode(
+            data,
+            (uint256, address, address)
+        );
+        if (!_currencyWhitelisted(currency) || recipient == address(0) || amount == 0)
+            revert Errors.InitParamsInvalid();
 
+        _dataByProfile[profileId].amount = amount;
+        _dataByProfile[profileId].currency = currency;
+        _dataByProfile[profileId].recipient = recipient;
+        return data;
+    }
+    
     function processFollow(
         address follower,
         uint256 profileId,
         bytes calldata data
     ) external override {
-
         (
             address input,
             uint256 root,
             uint256 nullifierHash,
-            uint256[8] calldata proof
+            uint256[8] memory proof
         ) = abi.decode(data, (address, uint256, uint256, uint256[8]));
         
-        verifyAndExecute(input, root, nullifierHash, proof);
+        verify(input, root, nullifierHash, proof);
 
-        // add custom logic
+        uint256 amount = _dataByProfile[profileId].amount;
+        address currency = _dataByProfile[profileId].currency;
+        // _validateDataIsExpected(data, currency, amount); need to fix this 
+
+        (address treasury, uint16 treasuryFee) = _treasuryData();
+        address recipient = _dataByProfile[profileId].recipient;
+        uint256 treasuryAmount = (amount * treasuryFee) / BPS_MAX;
+        uint256 adjustedAmount = amount - treasuryAmount;
+
+        IERC20(currency).safeTransferFrom(follower, recipient, adjustedAmount);
+        if (treasuryAmount > 0)
+            IERC20(currency).safeTransferFrom(follower, treasury, treasuryAmount);
     }
-
-    function followModuleTransferHook(
-        uint256 profileId,
-        address from,
-        address to,
-        uint256 followNFTTokenId
-    ) external override {}
 
     /// @param input User's input, used as the signal. Could be something else! (see README)
     /// @param root The of the Merkle tree, returned by the SDK.
     /// @param nullifierHash The nullifier for this proof, preventing double signaling, returned by the SDK.
     /// @param proof The zero knowledge proof that demostrates the claimer is registered with World ID, returned by the SDK.
     /// @dev Feel free to rename this method however you want! We've used `claim`, `verify` or `execute` in the past.
-    function verifyAndExecute(
+    function verify(
         address input,
         uint256 root,
         uint256 nullifierHash,
-        uint256[8] calldata proof
+        uint256[8] memory proof
     ) public {
         // first, we make sure this person hasn't done this before
         if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
@@ -92,5 +119,6 @@ contract Membership is IFollowModule {
         nullifierHashes[nullifierHash] = true;
 
         // your logic here, make sure to emit some kind of event afterwards!
+
     }
 }

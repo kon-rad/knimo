@@ -2,19 +2,19 @@
 
 pragma solidity 0.8.10;
 
-import {ILensHub} from '../interfaces/ILensHub.sol';
-import {Events} from '../libraries/Events.sol';
-import {Helpers} from '../libraries/Helpers.sol';
-import {Constants} from '../libraries/Constants.sol';
-import {DataTypes} from '../libraries/DataTypes.sol';
-import {Errors} from '../libraries/Errors.sol';
-import {PublishingLogic} from '../libraries/PublishingLogic.sol';
-import {ProfileTokenURILogic} from '../libraries/ProfileTokenURILogic.sol';
-import {InteractionLogic} from '../libraries/InteractionLogic.sol';
+import {ILensHub} from './interfaces/ILensHub.sol';
+import {Events} from './libraries/Events.sol';
+import {Helpers} from './libraries/Helpers.sol';
+import {Constants} from './libraries/Constants.sol';
+import {DataTypes} from './libraries/DataTypes.sol';
+import {Errors} from './libraries/Errors.sol';
+import {PublishingLogic} from './libraries/PublishingLogic.sol';
+import {ProfileTokenURILogic} from './libraries/ProfileTokenURILogic.sol';
+import {InteractionLogic} from './libraries/InteractionLogic.sol';
 import {LensNFTBase} from './base/LensNFTBase.sol';
 import {LensMultiState} from './base/LensMultiState.sol';
 import {LensHubStorage} from './storage/LensHubStorage.sol';
-import {VersionedInitializable} from '../upgradeability/VersionedInitializable.sol';
+import {VersionedInitializable} from './upgradeability/VersionedInitializable.sol';
 import {IERC721Enumerable} from '@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol';
 
 /**
