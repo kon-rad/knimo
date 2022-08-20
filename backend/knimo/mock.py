@@ -31,3 +31,23 @@ class Mock:
   @staticmethod
   def post_registry():
     return json.dumps({ 'id': '0x1234567890', 'name': 'knimo registry', 'success': True })
+
+  @staticmethod
+  def get_registry():
+    return json.dumps({ 'id': '0x1234567890', 'name': 'knimo registry', 'success': True })
+
+  @staticmethod
+  def post_profile():
+    return json.dumps({ 'id': '0x1234567890', 'name': 'knimo profile', 'success': True })
+
+  @staticmethod
+  def get_profile():
+    return json.dumps({ 'id': '0x1234567890', 'name': 'knimo profile', 'success': True })
+
+  @staticmethod
+  def post_issue():
+    return json.dumps({ 'id': '0x1234567890', 'name': 'knimo issue', 'success': True })
+
+  @staticmethod
+  def patch_profile():
+    return json.dumps({ 'id': '0x1234567890', 'name': 'knimo profile', 'success': True })

@@ -13,9 +13,6 @@ SERVER_URL  = os.environ.get('DOMAIN', 'http://127.0.0.1:' + str(SERVER_PORT))
 
 def validate_response(route, response):
   response = json.loads(response)
-  if response['success']:
-    print('SUCCESS: ' + route)
-  else:
-    print('FAILED: ' + route)
+  print('SUCCESS' if response['success'] else 'FAIL', route, response)
 
 validate_response('POST /registry', subprocess.run(f'curl -X POST {SERVER_URL}/registry', shell=True, capture_output=True).stdout.decode('utf-8'))
