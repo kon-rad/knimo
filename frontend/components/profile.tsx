@@ -1,13 +1,16 @@
 import { gql, useQuery } from '@apollo/client'
 import { NextPage } from 'next'
+import { Flex, Box } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
 import { useAppState } from '../context/appState'
 import { useLazyQuery } from '@apollo/client'
-import { GET_PROFILES } from '../api/queries'
-
+import { GET_PROFILES, GET_DEFAULT_PROFILES } from '../api/queries'
+import SidePanel from './sidepanel'
+import TopPanel from './toppanel'
+import MainPanel from './mainpanel'
 
 export const getDefaultProfile = (ethereumAddress: string) => {
    return apolloClient.query({
@@ -19,7 +22,11 @@ export const getDefaultProfile = (ethereumAddress: string) => {
     },
   })
 }
-const Profile: NextPage = () => {
+interface Props {
+    type: string;
+}
+
+const Profile = (props: Props) => {
     const { address } = useAccount();
     const { authToken } = useAppState();
     const [getProfiles, profiles] = useLazyQuery(GET_PROFILES)
@@ -30,13 +37,16 @@ const Profile: NextPage = () => {
     if (!authToken || !address) return;
     console.log('fetching profiles', address, authToken);
     
-    // getProfiles({
-    //   variables: {
-    //     request: {
-    //       ownedBy: [address.toLowerCase()]
-    //     },
-    //   },
-    //  })
+    getProfiles({
+        variables: {
+          request: {
+            // profileIds?: string[];
+            handles: ['konrad.lens']
+            // handles?: string[];
+            // whoMirroredPublicationId?: string;
+          },
+        },
+       })
 
   }, [address, authToken])
 
@@ -67,7 +77,13 @@ const Profile: NextPage = () => {
 
   return (
     <>
-      profiles page 
+        <Flex justify="center" width="100%">
+            <SidePanel type={props.type} />
+            <Box>
+                <TopPanel type={props.type} />
+                <MainPanel type={props.type} />
+            </Box>
+        </Flex>
     </>
   )
 }

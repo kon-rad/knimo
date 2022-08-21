@@ -2,9 +2,13 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Aldrich', sans-serif;
+  font-family: 'Aldrich', sans-serif!important;
+  background: url('/images/gradient.jpeg') right top no-repeat!important;
+  background-color: black!important;
+  color: white;
+  background-size: 100% 100%!important;
+  background-position: center top!important;
 }
-
 a {
   color: inherit;
   text-decoration: none;
@@ -22,4 +26,32 @@ a {
     color: white;
     background: black;
   }
+}
+
+.sidepanel {
+  /* background: url('/images/gradient.jpeg') right top no-repeat!important; */
+  background: url('/images/background.svg') right top no-repeat!important;
+  width: 400px;
+  height: 650px;
+  margin: 40px;
+  border-radius: 60px;
+}
+.mainpanel {
+  /* background: url('/images/gradient.jpeg') right top no-repeat!important; */
+  background: url('/images/background.svg') right top no-repeat!important;
+  width: 700px;
+  height: 400px;
+  margin: 40px;
+  border-radius: 60px;
+}
+.toppanel {
+  /* background: url('/images/gradient.jpeg') right top no-repeat!important; */
+  background: url('/images/background.svg') right top no-repeat!important;
+  width: 700px;
+  height: 200px;
+  margin: 40px;
+  border-radius: 60px;
+}
+.pointer {
+  cursor: pointer;
 }

@@ -1,9 +1,10 @@
-import { Box, Text, Button, Flex } from '@chakra-ui/react';
+import { Box, Text, Button, Flex } from '@chakra-ui/react'
+import Profile from '../../components/profile'
 
 const Member = () => {
     return (
         <Box>
-            <Text>Member Page</Text>
+            <Profile type="member" />
         </Box>
     )
 }
