@@ -17,11 +17,11 @@ const config: HardhatUserConfig = {
         //     blockGasLimit: 30000000,
         // },
 
-        // mainnet: {
-        //     url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API}`,
-        //     accounts: [process.env.PRIVATEKEY],
-        //     gasPrice: 8000000000, // default is 'auto' which breaks chains without the london hardfork
-        // },
+        mainnet: {
+            url: `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_API}`,
+            accounts: [process.env.PRIVATE_KEY!],
+            gasPrice: 15000000000,
+        },
         mumbai: {
             url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_API}`,
             accounts: [process.env.PRIVATE_KEY!],

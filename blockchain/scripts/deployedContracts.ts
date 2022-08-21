@@ -7,5 +7,6 @@ export const deployedContracts = {
     collectPerksModule: "0x64220A0322870a8a5794a2F95dEFcE053adcd69A",
     perkStorage: "0x8007b73C2044267d5311C4252c60a5C7C67Ca365",
     CollectNFT: "0x9417ffd1e38ef421ccd3dc5a90fdc46047afacc4",
-    FollowNFT: "0x1a2bb1bc90aa5716f5eb85fd1823338bd1b6f772"
+    FollowNFT: "0x1a2bb1bc90aa5716f5eb85fd1823338bd1b6f772",
+    Splitter: "0x7D84fFcfC3E49fFfB11F85097df4F94791516341"
 }
