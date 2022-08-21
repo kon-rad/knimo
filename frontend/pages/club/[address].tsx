@@ -4,8 +4,7 @@ import Profile from '../../components/profile'
 const Club = () => {
     return (
         <Box>
-            <Text>Club Page</Text>
-            <Profile />
+            <Profile type="club" />
         </Box>
     )
 }

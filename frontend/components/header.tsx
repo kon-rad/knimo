@@ -25,41 +25,43 @@ import {
     return (
       <Flex as="header" p={4} alignItems="center" className="header-container">
         <LinkBox cursor="pointer">
-          <NextLink href="/" passHref={true}>
+          <NextLink href="/" passHref={true} className="pointer">
             <Flex align="center">
               <Image
                 borderRadius="50%"
                 mr="4"
-                src="/images/logos/logo1.png"
-                width="40px"
-                height="40px"
+                src="/key-logo.png"
+                width="60px"
+                marginLeft="20px"
               />
+              <Text fontSize="28px" fontWeight="bold" mr="2" color="white">
+                KNIMO
+              </Text>
             </Flex>
           </NextLink>
         </LinkBox>
         <Spacer />
-        <Box mr={4}>
-          <Flex justify="center" align="center">
-          </Flex>
-        </Box>
-        <Box mr={4}>
-          <LinkBox>
-            <NextLink href={`/member/${address}`} passHref={true}>
-                <Text fontSize="md" fontWeight="bold" mr="2" color="black">
-                  Member
-                </Text>
-            </NextLink>
-          </LinkBox>
-        </Box>
-        <Box mr={4}>
-          <LinkBox>
-            <NextLink href={`/club/${address}`} passHref={true}>
-                <Text fontSize="md" fontWeight="bold" mr="2" color="black">
-                  Club
-                </Text>
-            </NextLink>
-          </LinkBox>
-        </Box>
+        <Flex justify="space-around" align="center" width="40%">
+            <Box mr={4}>
+                <LinkBox>
+                    <NextLink href={`/member/${address}`} passHref={true}>
+                        <Text fontSize="28px" fontWeight="bold" mr="2" color="white" className="pointer">
+                            Member
+                        </Text>
+                    </NextLink>
+                </LinkBox>
+            </Box>
+            <Box mr={4}>
+            <LinkBox>
+                <NextLink href={`/club/${address}`} passHref={true}>
+                    <Text fontSize="28px" fontWeight="bold" mr="2" color="white" className="pointer">
+                        Club
+                    </Text>
+                </NextLink>
+            </LinkBox>
+            </Box>
+        </Flex>
+        
         <Box>
           <Wallet />
         </Box>

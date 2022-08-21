@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { Button, Box, Flex, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
+import { Button, Box, Flex, Menu, Text, Image } from '@chakra-ui/react';
 import { injected, formatAddress } from '../utils/web3'
 import { UserRejectedRequestError } from '@web3-react/injected-connector'
 import { DEFAULT_COLOR_SCHEME } from '../utils/constants'
@@ -86,7 +86,7 @@ const Wallet = () => {
             <Menu>
                 <Flex>
                     <ConnectButton style={{ marginRight: '12px'}} />
-                    {address && authToken ? 'logged in to lens' : <Button onClick={loginWithLens}>Login to Lens</Button>}
+                    {address ? authToken ? (<Text ml="6">logged in</Text>) : <Button ml="6" bg="#abfe2c" mr="18px" _active={{ bg: "#abfe2c" }} _hover={{ bg: "#abfe2c" }} onClick={loginWithLens}>Login <Image width="20px" src="/images/lens-sm.png" /></Button> : ""}
                 </Flex>
             </Menu>
         </>
