@@ -1,6 +1,7 @@
 export const deployedContracts = {
     hub: "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82",
     CollectModule: "0x0BE6bD7092ee83D44a6eC1D949626FeE48caB30c",
+    RevertFollowModule:"0x8c822Fc029EBdE62Da1Ed1072534c5e112dAE48c",
     ReferenceModule: "0x7Ea109eC988a0200A1F79Ae9b78590F92D357a16",
     GetMembershipModule: "0x05513eB5Ae403b1A54Ab8B513292b7A3d6DC270A",
     collectPerksModule: "0x64220A0322870a8a5794a2F95dEFcE053adcd69A",
