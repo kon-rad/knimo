@@ -25,9 +25,9 @@ const MainPanel = (props: Props) => {
             <Text textAlign="center" color="gray.500" fontSize="24">{props.type === 'club' ? 'MEMBERS' : 'MY CLUBS'}</Text>
             <Flex height="100%" align="center">
                 {
-                    props.type === 'club' && MEMBERS.map((e: any) => {
+                    props.type === 'club' && MEMBERS.map((e: any, i: number) => {
                         return (
-                            <Box>
+                            <Box key={`key-${i}`}>
                                 <Image margin="12px" src={e.image} width="120px" borderRadius="20px" />
                                 <Text fontSize="18px" textAlign="center" color="gray.100">{e.name}</Text>
                             </Box>

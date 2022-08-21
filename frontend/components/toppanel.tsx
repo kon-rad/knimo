@@ -29,9 +29,9 @@ const TopPanel = (props: Props) => {
             <Text textAlign="center" color="gray.500" fontSize="24">{props.type === 'club' ? 'CLUB' : 'MEMBER'} PERKS</Text>
             <Flex justify="space-around" mt="0px">
                 {
-                    props.type === 'club' && PERKS.map((e: any) => {
+                    props.type === 'club' && PERKS.map((e: any, i: number) => {
                         return (
-                            <Flex direction="column" justify="center" align="center">
+                            <Flex  key={`key-${i}`} direction="column" justify="center" align="center">
                                 <Image src={e.image} width="120px" borderRadius="20px" m="8px" />
                                 <Text mt="2px" color="gray.100" fontSize="12px">{e.name}</Text>
                             </Flex>
