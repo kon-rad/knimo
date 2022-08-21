@@ -86,11 +86,14 @@ const Wallet = () => {
             <Menu>
                 <Flex>
                     <ConnectButton style={{ marginRight: '12px'}} />
-                    {address ? authToken ? (<Text ml="6">logged in</Text>) : <Button ml="6" bg="#abfe2c" mr="18px" _active={{ bg: "#abfe2c" }} _hover={{ bg: "#abfe2c" }} onClick={loginWithLens}>Login <Image width="20px" src="/images/lens-sm.png" /></Button> : ""}
+                    {address ? authToken ? (<Image src={"/images/avatar-1.png"} width="40px" borderRadius="50%" marginLeft="18px" />) : <Button ml="6" bg="#abfe2c" mr="18px" _active={{ bg: "#abfe2c" }} _hover={{ bg: "#abfe2c" }} onClick={loginWithLens}>Login <Image width="20px" src="/images/lens-sm.png" /></Button> : ""}
                 </Flex>
             </Menu>
         </>
     )
 }
+
+// border-radius: 50%;
+//     margin-left: 20px;
 
 export default Wallet;

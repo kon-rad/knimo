@@ -12,6 +12,9 @@ import SidePanel from './sidepanel'
 import TopPanel from './toppanel'
 import MainPanel from './mainpanel'
 
+const PROFILE_DATA = {"profile":{"__typename":"Profile","id":"0x2931","handle":"konrad.lens","ownedBy":"0x7b86F576669f8d20a8244dABEFc65b31d7dEB3f2","name":"Konrad","bio":"Solidity dev - EVM - defi - VR - iOS","metadata":"https://lens.infura-ipfs.io/ipfs/QmZ5SZ7y1EH4dQzSj2fSifSPRov2UHxs5a22bGmVbjYM4z","followNftAddress":"0xaf95081f11754F9e7eBE98e10d4BCA3A23A73ec2","isFollowedByMe":false,"isFollowing":false,"attributes":[{"__typename":"Attribute","key":"location","value":"Nomadic"},{"__typename":"Attribute","key":"website","value":"https://konradgnat.com"},{"__typename":"Attribute","key":"twitter","value":"konrad_gnat"},{"__typename":"Attribute","key":"app","value":"Lenster"}],"onChainIdentity":{"__typename":"OnChainIdentity","ens":{"__typename":"EnsOnChainIdentity","name":"0xmaker.eth"}},"stats":{"__typename":"ProfileStats","totalFollowers":11,"totalFollowing":9,"totalPosts":3,"totalComments":4,"totalMirrors":3},"picture":{"__typename":"MediaSet","original":{"__typename":"Media","url":"https://lens.infura-ipfs.io/ipfs/QmTwxLmB8kURHfEw6CmtwnEbCUiDiayzJ7RtTre6fjzUox"}},"coverPicture":{"__typename":"MediaSet","original":{"__typename":"Media","url":"https://lens.infura-ipfs.io/ipfs/QmRKP7H4TcUsmEVS7ExvHEPNBFtkVCtvmh21yLSDjzSBWx"}},"followModule":null}};
+const CLUB_DATA = {"profile":{"__typename":"Profile","id":"0x2931","handle":"sohohouse.lens","ownedBy":"0x7b86F576669f8d20a8244dABEFc65b31d7dEB3f2","name":"SOHO House","bio":"Soho House is a group of private members' clubs originally aimed at those in the arts, politics, and media. ","metadata":"https://lens.infura-ipfs.io/ipfs/QmZ5SZ7y1EH4dQzSj2fSifSPRov2UHxs5a22bGmVbjYM4z","followNftAddress":"0xaf95081f11754F9e7eBE98e10d4BCA3A23A73ec2","isFollowedByMe":false,"isFollowing":false,"attributes":[{"__typename":"Attribute","key":"location","value":"Nomadic"},{"__typename":"Attribute","key":"website","value":"https://konradgnat.com"},{"__typename":"Attribute","key":"twitter","value":"konrad_gnat"},{"__typename":"Attribute","key":"app","value":"Lenster"}],"onChainIdentity":{"__typename":"OnChainIdentity","ens":{"__typename":"EnsOnChainIdentity","name":"0xmaker.eth"}},"stats":{"__typename":"ProfileStats","totalFollowers":11,"totalFollowing":9,"totalPosts":3,"totalComments":4,"totalMirrors":3},"picture":{"__typename":"MediaSet","original":{"__typename":"Media","url":"/images/soho-logo-1.png"}},"coverPicture":{"__typename":"MediaSet","original":{"__typename":"Media","url":"https://lens.infura-ipfs.io/ipfs/QmRKP7H4TcUsmEVS7ExvHEPNBFtkVCtvmh21yLSDjzSBWx"}},"followModule":null}};
+
 export const getDefaultProfile = (ethereumAddress: string) => {
    return apolloClient.query({
     query: gql(GET_DEFAULT_PROFILES),
@@ -30,12 +33,14 @@ const Profile = (props: Props) => {
     const { address } = useAccount();
     const { authToken } = useAppState();
     const [getProfiles, profiles] = useLazyQuery(GET_PROFILES)
+    const [data, setData] = useState<any>(null);
 
 
   useEffect(() => {
     console.log('fetching profiles', address, authToken);
     if (!authToken || !address) return;
     console.log('fetching profiles', address, authToken);
+    setData(PROFILE_DATA);
     
     getProfiles({
         variables: {
@@ -78,7 +83,7 @@ const Profile = (props: Props) => {
   return (
     <>
         <Flex justify="center" width="100%">
-            <SidePanel type={props.type} />
+            <SidePanel type={props.type} data={props.type === 'member' ? PROFILE_DATA : CLUB_DATA} />
             <Box>
                 <TopPanel type={props.type} />
                 <MainPanel type={props.type} />
