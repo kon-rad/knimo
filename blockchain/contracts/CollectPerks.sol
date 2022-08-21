@@ -13,6 +13,7 @@ interface Perks {
 contract CollectPerks is ModuleBase, ICollectModule {
 
     Perks public perkStorage;
+    error NotPerkStorage();
 
     constructor(address hub) ModuleBase(hub){}
     
@@ -41,7 +42,7 @@ contract CollectPerks is ModuleBase, ICollectModule {
         uint256 pubId,
         bytes calldata data
     ) external{
-
+        if(collector != address(perkStorage)) revert NotPerkStorage();
         (address followNFTAddress, uint256 followId) = abi.decode(data,(address, uint256));
         perkStorage.storePerks(followNFTAddress, followId, pubId);
     }

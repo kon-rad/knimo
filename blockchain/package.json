@@ -25,6 +25,7 @@
   "homepage": "https://github.com/KaiStryker/knimo#readme",
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3",
+    "@worldcoin/id": "^0.8.0",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "hardhat": "^2.10.2"

@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import axios from "axios";
 
-const NODE_URL = `https://alchemy.api/${process.env.ALCHEMY_API}` // - change to proper alchemy http
+const NODE_URL = `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_API}`
 const provider = new ethers.providers.JsonRpcProvider(NODE_URL)
 
 export const retrievePerks = async (followNFTAddress: String, followId: Number) => {

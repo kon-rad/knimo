@@ -60,11 +60,11 @@ contract GetMembership is IFollowModule, ModuleBase{
         uint256 followNFTTokenId
     ) external override {}
 
-        function isFollowing(
+    function isFollowing(
         uint256 profileId,
         address follower,
         uint256 followNFTTokenId
-    ) external view returns (bool){}
+    ) external view returns (bool) {}
 
     /// @param input User's input, used as the signal. Could be something else! (see README)
     /// @param root The of the Merkle tree, returned by the SDK.
